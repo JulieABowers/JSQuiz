@@ -1,17 +1,21 @@
-var timer = 9;//0;
+var timer = 90;
 var timerEle = $("#timer");
 var startBtn = document.querySelector("#startBtn");
 var nextBtn = document.querySelector("#nextBtn");
+var resetBtn = document.querySelector("#resetBtn");
 var cardCtrl = document.getElementById("#card1");
 var startBtnEle = $("#startBtn");
+var nextBtnEle = $("#nextBtn");
 var resetBtnEle = $("#resetBtn");
 var cardCtrlEle = $("#card1");
 var questionCtr = 0;
 var questionText = $("#questionText");
+var timerInterval;
 
 //When the page loads we only want the header and the start button to be visible
 cardCtrlEle.hide();
 resetBtnEle.hide();
+nextBtnEle.hide();
 startBtnEle.show();
 var currentQuestion;
 var myQuestions = [{
@@ -72,12 +76,9 @@ function init()
     //Hide the start button and show the questions
     cardCtrlEle.show();
     resetBtnEle.show();
+    nextBtnEle.show();
     startBtnEle.hide()
 
-    //Display Q1
-    //currentQuestion = question1;
-    //$("#questionText").text(questionCtr + ". " + question1.qText);
-    //console.log(currentQuestion.qText);
     timerEle.text("Time Left: ")
     startTimer()
     generateQuestions();
@@ -86,7 +87,7 @@ function init()
 
 function startTimer() {
     // Sets interval in variable
-    var timerInterval = setInterval(function() {
+    timerInterval = setInterval(function() {
     timer--;
     timerEle.text("Time Left: " + timer)
 
@@ -108,8 +109,16 @@ function sendMessage() {
 function generateQuestions()
 {
     currentQuestion = myQuestions[questionCtr];
+    var numQuestions = myQuestions.length;
+
+ 
     questionCtr++;
-    $("#whichQuestion").text("Question " + questionCtr + " of " + myQuestions.length);
+    if (questionCtr == numQuestions)
+    {
+        nextBtnEle.hide();
+    }
+
+    $("#whichQuestion").text("Question " + questionCtr + " of " + numQuestions);
     $("#questionText").text(currentQuestion.question);
 
     var questionHtml = '';
@@ -126,7 +135,18 @@ function generateQuestions()
     $("#questionText").children().append(questionHtml);
     $("question").text = questionHtml;
 
+
+
     
 }
 startBtn.addEventListener("click", init);
 nextBtn.addEventListener("click", generateQuestions);
+resetBtn.addEventListener("click", function() {
+    clearInterval(timerInterval);
+    timer = 90;
+    questionCtr = 0;
+    cardCtrlEle.hide();
+    resetBtnEle.hide();
+    nextBtnEle.hide();
+    startBtnEle.show();
+});
