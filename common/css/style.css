@@ -9,3 +9,13 @@ label {
 #nextBtn {
     align-items: end !important;
 }
+
+header {
+    display: flex;
+    background-color: darkviolet;
+    height: 200px;
+    width: 100%;
+    text-align: center;
+    align-items: center;
+
+}

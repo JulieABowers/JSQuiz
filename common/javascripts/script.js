@@ -1,84 +1,7 @@
-/* Questions
-
-1. Inside which HTML element do we put the JavaScript?
-    a. <scripting>
-    b. <js>
-    c. <script>
-    d. <javascript>
-
-    Answer: C
-
-2. What is the correct JavaScript syntax to change the content of the HTML element below?
-
-<p id="demo">This is a demonstration.</p>
-    a. #demo.innerHTML = "Hello World!";
-    b. document.GetELementByName("p").innerHTML = "Hello World!";
-    c. document.GetELementByName("demo").innerHTML = "Hello World!";
-    d. document.GetELement("p").innerHTML = "Hello World!";
-
-    Answer: C
-
-3. Where is the correct place to insert a JavaScript?
-    a. Both the <head> and <body> sections
-    b. The <head> section
-    c. The <body> section
-
-    Answer: A
-
-4. What is the correct syntax for referring to an external script called "xxx.js"?
-    a. <script src="xxx.js">
-    b. <script href="xxx.js">
-    c. <script name="xxx.js">
-
-    Answer: A
-
-5. The external JavaScript file must contain the <script> tag.
-    a. True
-    b. False
-
-    Answer: B
-
-6. How do you write "Hello World" in an alert box?
-    a. alert("Hello World!");
-    b. msg("Hello World!");
-    c. confirm("Hello World!");
-    d. prompt("Hello World!");
-
-    Answer: A
-
-7. How do you create a function in JavaScript?
-    a. function = myFunction()
-    b. function:myFunction()
-    c. function myFunction()
-
-    Answer: C
-    
-8. How do you call a function named "myFunction"?
-    a. myFunction()
-    b. call myFunction()
-    c. call function myFunction()
-
-    Answer: A
-
-9. How to write an IF statement in JavaScript?
-    a. if i = 5
-    b. if (i == 5)
-    c. if i = 5 then
-    d. if i == 5
-
-    Answer: B
-
-10. How does a FOR loop start?
-    a. for (i <= 5; i++)
-    b. for (i = 0; i <= 5)
-    c. for i = 1 to 5
-    d. for (i = 0; i <= 5; i++)
-
-    Answer: D
-*/
-
-var timer = 90;
+var timer = 9;//0;
+var timerEle = $("#timer");
 var startBtn = document.querySelector("#startBtn");
+var nextBtn = document.querySelector("#nextBtn");
 var cardCtrl = document.getElementById("#card1");
 var startBtnEle = $("#startBtn");
 var resetBtnEle = $("#resetBtn");
@@ -99,10 +22,7 @@ var myQuestions = [{
     },
     {
         question: "What is the correct JavaScript syntax to change the content of the HTML element below?\n\n<p id=\"demo\">This is a demonstration.</p>",
-        answers: "#demo.innerHTML = \"Hello World!\";",
-        qB: "document.GetELementByName(\"p\").innerHTML = 'Hello World!';",
-        qC: "document.GetELementByName(\"demo\").innerHTML = \"Hello World!\";",
-        qD: "document.GetELement(\"p\").innerHTML = \"Hello World!\";",
+        answers: ["#demo.innerHTML = \"Hello World!\";", "document.GetELementByName(\"p\").innerHTML = 'Hello World!';", "document.GetELementByName(\"demo\").innerHTML = \"Hello World!\";", "document.GetELement(\"p\").innerHTML = \"Hello World!\";"],
         correctAnswer: "2"
     },
     {
@@ -146,36 +66,6 @@ var myQuestions = [{
         correctAnswer: "3"
     }];
 
-/*
-  var x = document.createElement("INPUT");
-        x.setAttribute("type", "radio");
-        x.setAttribute("name", "sort");
-        x.setAttribute("value", "town");
-        x.setAttribute("id", "town");
-        container_element.appendChild(x);
-        var label = document.createElement('label');
-        label.setAttribute('for', 'town');
-        label.innerHTML = "town";
-        container_element.appendChild(label);
-
-var questions = [
-{ question1: "What color is the sky?", 
-    answers:["blue", "red", "green", "orange"], 
-    correctAnswer: 0
-}
-];
-
-var questionHtml = '';
-questions.forEach(function(question) {
-questionHtml = '<p>'+  question.question1 + '</p>';
-question.answers.forEach(function(answer, i) {
-    questionHtml += '<input type="radio" name="answer" '
-    questionHtml += 'value="' + i + '">'
-    questionHtml += answer + '<br>'
-})
-})
-document.getElementById('buttons').innerHTML = questionHtml;
- */         
 
 function init()
 {
@@ -188,15 +78,39 @@ function init()
     //currentQuestion = question1;
     //$("#questionText").text(questionCtr + ". " + question1.qText);
     //console.log(currentQuestion.qText);
+    timerEle.text("Time Left: ")
+    startTimer()
     generateQuestions();
 
+}
+
+function startTimer() {
+    // Sets interval in variable
+    var timerInterval = setInterval(function() {
+    timer--;
+    timerEle.text("Time Left: " + timer)
+
+    if(timer === 0) {
+    // Stops execution of action at set interval
+    clearInterval(timerInterval);
+    // Calls function to create and append image
+    sendMessage();
+    }
+
+}, 1000);
+}
+
+function sendMessage() {
+    var msgText = "Time's Up!";
+    alert(msgText);  
 }
 
 function generateQuestions()
 {
     currentQuestion = myQuestions[questionCtr];
     questionCtr++;
-    $("#questionText").text(questionCtr + ". " + currentQuestion.question);
+    $("#whichQuestion").text("Question " + questionCtr + " of " + myQuestions.length);
+    $("#questionText").text(currentQuestion.question);
 
     var questionHtml = '';
     var labelText;
@@ -204,19 +118,10 @@ function generateQuestions()
     currentQuestion.answers.forEach(function(answer, i) {
         questionHtml += '<input type="radio" name="question" '
         questionHtml += 'value="' + i + '">'
-        questionHtml += '<label for="' + i + '" padding-left=20px>' + answer + '</label><br>'
+        questionHtml += '<label for="' + i + '">' + answer + '</label><br>'
     })
-    /*var answerCtr = currentQuestion.answers.length;
-    for (j = 0; j <= answerCtr; j++)
-    {
-        <label></label><br></br>
-        //$("#questionText").children().children[1]. = currentQuestion.answers[j];
-        //$("#questionText").children[1].value = "grr";
-        console.log($("#questionText").children().children().text);
-        console.log(currentQuestion.answers[j]);
 
-    }*/
-    console.log(questionHtml);
+    console.log(currentQuestion);
     
     $("#questionText").children().append(questionHtml);
     $("question").text = questionHtml;
@@ -224,3 +129,4 @@ function generateQuestions()
     
 }
 startBtn.addEventListener("click", init);
+nextBtn.addEventListener("click", generateQuestions);
