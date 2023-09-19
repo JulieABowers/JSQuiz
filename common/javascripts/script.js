@@ -130,15 +130,10 @@ function generateQuestions()
         questionHtml += '<label for="' + i + '">' + answer + '</label><br>'
     })
 
-    console.log(currentQuestion);
-    
     $("#questionText").children().append(questionHtml);
     $("question").text = questionHtml;
-
-
-
-    
 }
+
 startBtn.addEventListener("click", init);
 nextBtn.addEventListener("click", generateQuestions);
 resetBtn.addEventListener("click", function() {
