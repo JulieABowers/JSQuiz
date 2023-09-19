@@ -1,0 +1,11 @@
+.wrapper {
+    padding-top: 20px;
+}
+
+label {
+    padding-left: 20px;
+}
+
+#nextBtn {
+    align-items: end !important;
+}
